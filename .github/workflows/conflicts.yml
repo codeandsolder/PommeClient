@@ -13,6 +13,7 @@ on:
 
 permissions: {}
 
+# ci-workflow-supersession: global-snapshot; every run recomputes merge conflicts for all open PRs
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
