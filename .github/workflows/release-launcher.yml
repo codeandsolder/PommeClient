@@ -41,6 +41,9 @@ jobs:
         with:
           targets: ${{ matrix.target }}
 
+      - name: Setup mandatory sccache
+        uses: codeandsolder/ci-workflows/.github/actions/setup-sccache@9d478bdbfd4acd0e1a2c015d1ff1d11688eda572 # main
+
       - uses: pnpm/action-setup@v6
         with:
           version: 10
@@ -85,6 +88,10 @@ jobs:
           name: ${{ matrix.name }}
           path: dist/
           if-no-files-found: error
+
+      - name: Finalize mandatory sccache
+        if: always()
+        uses: codeandsolder/ci-workflows/.github/actions/finalize-sccache@9d478bdbfd4acd0e1a2c015d1ff1d11688eda572 # main
 
   release-launcher:
     needs: build-launcher

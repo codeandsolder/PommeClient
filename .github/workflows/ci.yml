@@ -31,10 +31,8 @@ jobs:
       - name: Add the Android target
         run: rustup target add aarch64-linux-android
 
-      - uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: android
-          cache-on-failure: true
+      - name: Setup mandatory sccache
+        uses: codeandsolder/ci-workflows/.github/actions/setup-sccache@9d478bdbfd4acd0e1a2c015d1ff1d11688eda572 # main
 
       - name: Install Vulkan SDK
         uses: jakoch/install-vulkan-sdk-action@37effcfa045411f8bfbbda26df2fd1b3bf3436fa
@@ -51,6 +49,10 @@ jobs:
       - name: Clippy
         run: ANDROID_NDK_HOME="$ANDROID_NDK_LATEST_HOME" cargo ndk -t arm64-v8a clippy -p pomme-android -- -D warnings
 
+      - name: Finalize mandatory sccache
+        if: always()
+        uses: codeandsolder/ci-workflows/.github/actions/finalize-sccache@9d478bdbfd4acd0e1a2c015d1ff1d11688eda572 # main
+
   # The same for `cfg(target_os = "ios")`.
   ios:
     runs-on: macos-latest
@@ -66,10 +68,8 @@ jobs:
       - name: Add the iOS target
         run: rustup target add aarch64-apple-ios
 
-      - uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: ios
-          cache-on-failure: true
+      - name: Setup mandatory sccache
+        uses: codeandsolder/ci-workflows/.github/actions/setup-sccache@9d478bdbfd4acd0e1a2c015d1ff1d11688eda572 # main
 
       - name: Install Vulkan SDK
         uses: jakoch/install-vulkan-sdk-action@37effcfa045411f8bfbbda26df2fd1b3bf3436fa
@@ -89,6 +89,10 @@ jobs:
       - name: Clippy
         run: SHADERC_LIB_DIR="$VULKAN_SDK/lib" VULKAN_SDK="$(python3 tools/fetch_moltenvk.py ios)" cargo clippy -p pomme-ios --target aarch64-apple-ios -- -D warnings
 
+      - name: Finalize mandatory sccache
+        if: always()
+        uses: codeandsolder/ci-workflows/.github/actions/finalize-sccache@9d478bdbfd4acd0e1a2c015d1ff1d11688eda572 # main
+
   client:
     strategy:
       matrix:
@@ -104,10 +108,8 @@ jobs:
         with:
           components: clippy, rustfmt
 
-      - uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: client
-          cache-on-failure: true
+      - name: Setup mandatory sccache
+        uses: codeandsolder/ci-workflows/.github/actions/setup-sccache@9d478bdbfd4acd0e1a2c015d1ff1d11688eda572 # main
 
       - name: Install Vulkan SDK
         uses: jakoch/install-vulkan-sdk-action@37effcfa045411f8bfbbda26df2fd1b3bf3436fa
@@ -192,6 +194,10 @@ jobs:
           cargo clippy -p pomme-client --release --all-targets -- -D warnings
           cargo test -p pomme-singleplayer --release -- --include-ignored
 
+      - name: Finalize mandatory sccache
+        if: always()
+        uses: codeandsolder/ci-workflows/.github/actions/finalize-sccache@9d478bdbfd4acd0e1a2c015d1ff1d11688eda572 # main
+
   pr-template:
     runs-on: ubuntu-latest
     steps:
@@ -269,10 +275,8 @@ jobs:
         with:
           components: clippy, rustfmt
 
-      - uses: Swatinem/rust-cache@v2
-        with:
-          shared-key: launcher
-          cache-on-failure: true
+      - name: Setup mandatory sccache
+        uses: codeandsolder/ci-workflows/.github/actions/setup-sccache@9d478bdbfd4acd0e1a2c015d1ff1d11688eda572 # main
 
       - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-latest'
@@ -295,3 +299,7 @@ jobs:
             echo "::error::pomme-launcher/src/bindings is stale. Run 'cargo run -p pomme-launcher --bin generate-bindings' and commit."
             exit 1
           fi
+
+      - name: Finalize mandatory sccache
+        if: always()
+        uses: codeandsolder/ci-workflows/.github/actions/finalize-sccache@9d478bdbfd4acd0e1a2c015d1ff1d11688eda572 # main
