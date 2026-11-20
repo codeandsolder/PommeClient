@@ -100,6 +100,9 @@ jobs:
         with:
           targets: ${{ matrix.target }}
 
+      - name: Setup mandatory sccache
+        uses: codeandsolder/ci-workflows/.github/actions/setup-sccache@6c75050a784dea5e37d28b094ce9ef3ef6c40829 # main
+
       - name: Install Vulkan SDK
         uses: jakoch/install-vulkan-sdk-action@37effcfa045411f8bfbbda26df2fd1b3bf3436fa
         with:
@@ -175,6 +178,10 @@ jobs:
           name: ${{ matrix.name }}
           path: dist/
           if-no-files-found: error
+
+      - name: Finalize mandatory sccache
+        if: always()
+        uses: codeandsolder/ci-workflows/.github/actions/finalize-sccache@6c75050a784dea5e37d28b094ce9ef3ef6c40829 # main
 
   release-client:
     needs: [check, build-client]
