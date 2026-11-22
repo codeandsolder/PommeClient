@@ -28,7 +28,8 @@
 //! use pyronyx::vk;
 //! # fn example(device: &vk::Device, allocator: &mut Allocator) {
 //!
-//! let buffer = device.create_buffer(
+//! let buffer = device
+//!     .create_buffer(
 //!         &vk::BufferCreateInfo {
 //!             size: 512,
 //!             usage: vk::BufferUsageFlags::StorageBuffer,
