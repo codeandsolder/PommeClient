@@ -4,8 +4,10 @@
 //!
 //! ```no_run
 //! use pomme_gpu_allocator::vulkan::*;
+//! # use pyronyx::vk;
+//! # fn setup(instance: vk::Instance, device: vk::Device, physical_device: vk::PhysicalDevice) -> Allocator {
 //!
-//! let mut allocator = Allocator::new(&AllocatorCreateDesc {
+//! let allocator = Allocator::new(&AllocatorCreateDesc {
 //!     instance,
 //!     device,
 //!     physical_device,
@@ -14,6 +16,8 @@
 //!     allocation_sizes: Default::default(),
 //! })
 //! .unwrap();
+//! # allocator
+//! # }
 //! ```
 //!
 //! # Simple allocation example
@@ -22,20 +26,19 @@
 //! use pomme_gpu_allocator::MemoryLocation;
 //! use pomme_gpu_allocator::vulkan::*;
 //! use pyronyx::vk;
+//! # fn example(device: &vk::Device, allocator: &mut Allocator) {
 //!
-//! let buffer = unsafe {
-//!     device.create_buffer(
+//! let buffer = device.create_buffer(
 //!         &vk::BufferCreateInfo {
 //!             size: 512,
-//!             usage: vk::BufferUsageFlags::STORAGE_BUFFER,
+//!             usage: vk::BufferUsageFlags::StorageBuffer,
 //!             ..Default::default()
 //!         },
 //!         None,
 //!     )
-//! }
-//! .unwrap();
+//!     .unwrap();
 //!
-//! let requirements = unsafe { device.get_buffer_memory_requirements(buffer) };
+//! let requirements = device.get_buffer_memory_requirements(buffer);
 //!
 //! let allocation = allocator
 //!     .allocate(&AllocationCreateDesc {
@@ -53,8 +56,9 @@
 //!         .unwrap()
 //! };
 //!
+//! device.destroy_buffer(buffer, None);
 //! allocator.free(allocation).unwrap();
-//! unsafe { device.destroy_buffer(buffer, None) };
+//! # }
 //! ```
 
 mod result;
