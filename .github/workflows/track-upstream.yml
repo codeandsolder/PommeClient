@@ -1,0 +1,23 @@
+name: Track upstream
+
+on:
+  schedule:
+    - cron: "7 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    uses: codeandsolder/ci-workflows/.github/workflows/upstream-tracking.yml@f1499fe94abf45faacae7992670e5163109225f0 # main
+    with:
+      upstream-repository: PommeMC/Client
+      upstream-branch: master
+      target-branch: master
+      strategy: merge
+      validation-script: .github/scripts/validate-upstream.sh
+      rust-toolchain: repository
+      vulkan-sdk-version: "1.4.341.0"
+      timeout-minutes: 120
