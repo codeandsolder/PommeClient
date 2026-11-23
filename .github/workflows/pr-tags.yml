@@ -26,13 +26,13 @@ jobs:
             // CI's pr-template job fails if the two drift. A label missing from
             // the repo is created on first use.
             const TYPE_LABELS = [
-              { text: "Bug fix",                 label: "bug",             color: "d73a4a" },
-              { text: "New feature",             label: "enhancement",     color: "a2eeef" },
-              { text: "Breaking change",         label: "breaking change", color: "b60205" },
-              { text: "Refactor / code cleanup", label: "refactor",        color: "cfd3d7" },
-              { text: "Performance improvement", label: "performance",     color: "fbca04" },
-              { text: "Chore / tooling",         label: "chore",           color: "cccccc" },
-              { text: "Documentation",           label: "documentation",   color: "0075ca" },
+              {"text":"Bug fix","label":"bug","color":"d73a4a"},
+              {"text":"New feature","label":"enhancement","color":"a2eeef"},
+              {"text":"Breaking change","label":"breaking change","color":"b60205"},
+              {"text":"Refactor / code cleanup","label":"refactor","color":"cfd3d7"},
+              {"text":"Performance improvement","label":"performance","color":"fbca04"},
+              {"text":"Chore / tooling","label":"chore","color":"cccccc"},
+              {"text":"Documentation","label":"documentation","color":"0075ca"}
             ];
 
             // Case-insensitive key, so a differently cased label already on the
